@@ -5,16 +5,13 @@
 
 #include <osgViewer/Viewer>
 
-class SceneView
+class Base3DViewerWidget
     : public QOpenGLWidget
     , public osgViewer::Viewer
 {
 public:
-    SceneView(QWidget* parent);
-
-    osg::Group* GetRootNode() const;
-
-    void AddNodeToRoot(const osg::ref_ptr<osg::Node>& node);
+    Base3DViewerWidget(QWidget* parent);
+    ~Base3DViewerWidget();
 
 protected:
     bool event(QEvent* evt);

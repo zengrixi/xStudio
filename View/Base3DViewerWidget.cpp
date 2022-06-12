@@ -1,8 +1,10 @@
-#include "SceneView.h"
+#include "Base3DViewerWidget.h"
 
 #include <QApplication>
 #include <QInputEvent>
 #include <QMessageBox>
+#include <QDesktopWidget>
+#include <QScreen>
 
 #include <osg/LightModel>
 #include <osg/MatrixTransform>
@@ -14,7 +16,7 @@
 #include <osgViewer/Renderer>
 #include <osgViewer/ViewerEventHandlers>
 
-SceneView::SceneView(QWidget* parent)
+Base3DViewerWidget::Base3DViewerWidget(QWidget* parent)
     : QOpenGLWidget(parent)
 {
     QSurfaceFormat format = QSurfaceFormat::defaultFormat();
@@ -28,17 +30,11 @@ SceneView::SceneView(QWidget* parent)
     setFocusPolicy(Qt::StrongFocus);
 }
 
-osg::Group* SceneView::GetRootNode() const
+Base3DViewerWidget::~Base3DViewerWidget()
 {
-    return _root;
 }
 
-void SceneView::AddNodeToRoot(const osg::ref_ptr<osg::Node>& node)
-{
-    _root->addChild(node);
-}
-
-bool SceneView::event(QEvent* evt)
+bool Base3DViewerWidget::event(QEvent* evt)
 {
     switch (evt->type())
     {
@@ -46,13 +42,13 @@ bool SceneView::event(QEvent* evt)
     case QEvent::TouchEnd:
     case QEvent::TouchUpdate:
     {
-        auto     touchPoints = static_cast<QTouchEvent*>(evt)->touchPoints();
-        uint32_t id          = 0;
-        uint32_t tapCount    = touchPoints.size();
+        auto touchPoints = static_cast<QTouchEvent*>(evt)->touchPoints();
+        auto id          = 0;
+        auto tapCount    = touchPoints.size();
 
         osg::ref_ptr<osgGA::GUIEventAdapter> osgEvent(nullptr);
         osgGA::GUIEventAdapter::TouchPhase   phase = osgGA::GUIEventAdapter::TOUCH_UNKNOWN;
-        foreach (const QTouchEvent::TouchPoint& touchPoint, touchPoints)
+        for (const auto& touchPoint : touchPoints)
         {
             if (!osgEvent)
             {
@@ -100,10 +96,10 @@ bool SceneView::event(QEvent* evt)
     return QOpenGLWidget::event(evt);
 }
 
-void SceneView::setKeyboardModifiers(QInputEvent* evt)
+void Base3DViewerWidget::setKeyboardModifiers(QInputEvent* evt)
 {
-    int32_t  modkey = evt->modifiers() & (Qt::ShiftModifier | Qt::ControlModifier | Qt::AltModifier);
-    uint32_t mask   = 0;
+    auto modkey = evt->modifiers() & (Qt::ShiftModifier | Qt::ControlModifier | Qt::AltModifier);
+    auto mask   = 0;
     if (modkey & Qt::ShiftModifier)
     {
         mask |= osgGA::GUIEventAdapter::MODKEY_SHIFT;
@@ -121,7 +117,7 @@ void SceneView::setKeyboardModifiers(QInputEvent* evt)
     update();
 }
 
-void SceneView::keyPressEvent(QKeyEvent* evt)
+void Base3DViewerWidget::keyPressEvent(QKeyEvent* evt)
 {
     setKeyboardModifiers(evt);
     _gw->getEventQueue()->keyPress(evt->key());
@@ -129,7 +125,7 @@ void SceneView::keyPressEvent(QKeyEvent* evt)
     update();
 }
 
-void SceneView::keyReleaseEvent(QKeyEvent* evt)
+void Base3DViewerWidget::keyReleaseEvent(QKeyEvent* evt)
 {
     setKeyboardModifiers(evt);
     _gw->getEventQueue()->keyRelease(evt->key());
@@ -137,7 +133,7 @@ void SceneView::keyReleaseEvent(QKeyEvent* evt)
     update();
 }
 
-void SceneView::mousePressEvent(QMouseEvent* evt)
+void Base3DViewerWidget::mousePressEvent(QMouseEvent* evt)
 {
     int button = 0;
     switch (evt->button())
@@ -163,7 +159,7 @@ void SceneView::mousePressEvent(QMouseEvent* evt)
     update();
 }
 
-void SceneView::mouseReleaseEvent(QMouseEvent* evt)
+void Base3DViewerWidget::mouseReleaseEvent(QMouseEvent* evt)
 {
     int button = 0;
     switch (evt->button())
@@ -191,7 +187,7 @@ void SceneView::mouseReleaseEvent(QMouseEvent* evt)
     update();
 }
 
-void SceneView::mouseDoubleClickEvent(QMouseEvent* evt)
+void Base3DViewerWidget::mouseDoubleClickEvent(QMouseEvent* evt)
 {
     int button = 0;
     switch (evt->button())
@@ -219,7 +215,7 @@ void SceneView::mouseDoubleClickEvent(QMouseEvent* evt)
     update();
 }
 
-void SceneView::mouseMoveEvent(QMouseEvent* evt)
+void Base3DViewerWidget::mouseMoveEvent(QMouseEvent* evt)
 {
     setKeyboardModifiers(evt);
     _gw->getEventQueue()->mouseMotion(evt->x(), evt->y());
@@ -227,7 +223,7 @@ void SceneView::mouseMoveEvent(QMouseEvent* evt)
     update();
 }
 
-void SceneView::wheelEvent(QWheelEvent* evt)
+void Base3DViewerWidget::wheelEvent(QWheelEvent* evt)
 {
     setKeyboardModifiers(evt);
     _gw->getEventQueue()->mouseScroll(
@@ -238,7 +234,7 @@ void SceneView::wheelEvent(QWheelEvent* evt)
     update();
 }
 
-void SceneView::resizeEvent(QResizeEvent* evt)
+void Base3DViewerWidget::resizeEvent(QResizeEvent* evt)
 {
     const QSize& size = evt->size();
     _gw->resized(x(), y(), size.width(), size.height());
@@ -248,7 +244,7 @@ void SceneView::resizeEvent(QResizeEvent* evt)
     QOpenGLWidget::resizeEvent(evt);
 }
 
-void SceneView::moveEvent(QMoveEvent* evt)
+void Base3DViewerWidget::moveEvent(QMoveEvent* evt)
 {
     const QPoint& pos = evt->pos();
     _gw->resized(pos.x(), pos.y(), width(), height());
@@ -257,12 +253,12 @@ void SceneView::moveEvent(QMoveEvent* evt)
     QOpenGLWidget::moveEvent(evt);
 }
 
-void SceneView::timerEvent(QTimerEvent* evt)
+void Base3DViewerWidget::timerEvent(QTimerEvent* evt)
 {
     update();
 }
 
-void SceneView::paintGL()
+void Base3DViewerWidget::paintGL()
 {
     if (isVisibleTo(QApplication::activeWindow()))
     {
@@ -270,25 +266,35 @@ void SceneView::paintGL()
     }
 }
 
-void SceneView::init3D()
+void Base3DViewerWidget::init3D()
 {
-    osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits;
-    traits->windowDecoration                          = false;
-    traits->x                                         = 0;
-    traits->y                                         = 0;
-    traits->width                                     = width();
-    traits->height                                    = height();
-    traits->doubleBuffer                              = true;
-    traits->sharedContext                             = 0;
+    // 用osg的方法默认获取第一个屏幕的信息
+    /*uint32_t width, height;
+    auto wsi = osg::GraphicsContext::getWindowingSystemInterface();
+    wsi->getScreenResolution(osg::GraphicsContext::ScreenIdentifier(0), width, height);*/
+
+    // 用Qt获取程序所在屏幕的信息
+    auto number     = QApplication::desktop()->screenNumber(this);
+    auto screenSize = QGuiApplication::screens().at(number > 0 ? number : 0)->geometry().size();
+
+    // 上下文关键参数
+    auto traits              = new osg::GraphicsContext::Traits;
+    traits->windowDecoration = false;
+    traits->x                = 0;
+    traits->y                = 0;
+    traits->width            = screenSize.width();
+    traits->height           = screenSize.height();
+    traits->doubleBuffer     = true;
+    traits->sharedContext    = 0;
 
     _gw = new osgViewer::GraphicsWindowEmbedded(traits);
 
     auto camera = getCamera();
     camera->setGraphicsContext(_gw);
-    camera->setViewport(new osg::Viewport(0, 0, traits->width, traits->height));
+    camera->setViewport(new osg::Viewport(traits->x, traits->y, traits->width, traits->height));
     camera->setClearMask(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    this->setCamera(camera);
 
-    this->setCamera(camera); //这两句话的先后顺序
     _root = new osg::Group;
     this->setSceneData(_root);
 
@@ -299,7 +305,7 @@ void SceneView::init3D()
     startTimer(20);
 }
 
-auto SceneView::createCamera(int x, int y, int w, int h) -> osg::ref_ptr<osg::Camera>
+auto Base3DViewerWidget::createCamera(int x, int y, int w, int h) -> osg::ref_ptr<osg::Camera>
 {
     _gw = new osgViewer::GraphicsWindowEmbedded(x, y, w, h);
 

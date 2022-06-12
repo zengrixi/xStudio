@@ -23,7 +23,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="View\SceneView.cpp">
+    <ClCompile Include="View\Base3DViewerWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Main\main.cpp">
@@ -32,9 +32,18 @@
     <ClCompile Include="Main\xStudio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="View\Main3DWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="View\SceneView.h">
+    <ClInclude Include="View\Base3DViewerWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="View\Main3DWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\Singleton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

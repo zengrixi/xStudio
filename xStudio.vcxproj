@@ -11,13 +11,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="View\Main3DWidget.cpp" />
     <ClCompile Include="Main\main.cpp" />
     <ClCompile Include="Main\xStudio.cpp" />
-    <ClCompile Include="View\SceneView.cpp" />
+    <ClCompile Include="View\Base3DViewerWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Main\xStudio.h" />
-    <ClInclude Include="View\SceneView.h" />
+    <ClInclude Include="Util\Singleton.h" />
+    <ClInclude Include="View\Main3DWidget.h" />
+    <ClInclude Include="View\Base3DViewerWidget.h" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="Main\xStudio.qrc" />

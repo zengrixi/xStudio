@@ -5,14 +5,14 @@
 #include <osg/Node>
 #include <osg/MatrixTransform>
 
-#include <View/SceneView.h>
+#include <View/Main3DWidget.h>
 
 xStudio::xStudio(QWidget *parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
 
-	auto scene = new SceneView(this);
+	auto scene = new Main3DWidget(this);
     setCentralWidget(scene);
 
 	auto cow = osgDB::readNodeFile("./Resources/Data/cow.osg");
