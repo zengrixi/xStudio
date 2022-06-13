@@ -11,4 +11,6 @@ public:
     osg::Group* GetRootNode() const;
 
     void AddNodeToRoot(const osg::ref_ptr<osg::Node>& node);
+
+    bool OpenEarthFile(const QString& file);
 };

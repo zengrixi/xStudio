@@ -3,6 +3,8 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_xStudio.h"
 
+#include <View/Main3DWidget.h>
+
 class xStudio : public QMainWindow
 {
     Q_OBJECT
@@ -12,4 +14,6 @@ public:
 
 private:
     Ui::xStudioClass ui;
+
+    Main3DWidget* _mainScene;
 };
