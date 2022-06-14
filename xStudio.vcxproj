@@ -11,6 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Cmd\BatchCommand.cpp" />
+    <ClCompile Include="Cmd\BaseCommand.cpp" />
+    <ClCompile Include="Cmd\CommandDesc.cpp" />
+    <ClCompile Include="Cmd\CommandManager.cpp" />
+    <ClCompile Include="Model\MObject.cpp" />
     <ClCompile Include="View\Main3DWidget.cpp" />
     <ClCompile Include="Main\main.cpp" />
     <ClCompile Include="Main\xStudio.cpp" />
@@ -18,6 +23,11 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Main\xStudio.h" />
+    <ClInclude Include="Cmd\BatchCommand.h" />
+    <ClInclude Include="Cmd\BaseCommand.h" />
+    <ClInclude Include="Cmd\CommandDesc.h" />
+    <QtMoc Include="Model\MObject.h" />
+    <QtMoc Include="Cmd\CommandManager.h" />
     <ClInclude Include="Util\Singleton.h" />
     <ClInclude Include="View\Main3DWidget.h" />
     <ClInclude Include="View\Base3DViewerWidget.h" />

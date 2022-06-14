@@ -35,6 +35,21 @@
     <ClCompile Include="View\Main3DWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Cmd\CommandDesc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\MObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Cmd\BaseCommand.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Cmd\BatchCommand.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Cmd\CommandManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="View\Base3DViewerWidget.h">
@@ -46,9 +61,24 @@
     <ClInclude Include="Util\Singleton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Cmd\BaseCommand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cmd\CommandDesc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cmd\BatchCommand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Main\xStudio.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Model\MObject.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Cmd\CommandManager.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
