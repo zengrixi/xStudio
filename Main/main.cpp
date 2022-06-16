@@ -1,10 +1,12 @@
-#include "xStudio.h"
 #include <QtWidgets/QApplication>
+#include "MainWindow.h"
 
-int main(int argc, char *argv[])
+using namespace xStudio;
+
+int main(int argc, char* argv[])
 {
     QApplication a(argc, argv);
-    xStudio w;
+    MainWindow   w;
     w.show();
     return a.exec();
 }

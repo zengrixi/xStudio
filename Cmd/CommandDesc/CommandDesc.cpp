@@ -1,5 +1,6 @@
 #include "CommandDesc.h"
-#include "CommandManager.h"
+
+#include <Cmd/CommandManager.h>
 
 namespace xStudio
 {
@@ -27,8 +28,5 @@ namespace xStudio
         }
     }
 
-    bool CommandDesc::GetCombinedable() const
-    {
-        return _combinedable;
-    }
+    bool CommandDesc::GetCombinedable() const { return _combinedable; }
 } // namespace xStudio

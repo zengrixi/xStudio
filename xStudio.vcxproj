@@ -11,32 +11,40 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Cmd\BatchCommand.cpp" />
-    <ClCompile Include="Cmd\BaseCommand.cpp" />
-    <ClCompile Include="Cmd\CommandDesc.cpp" />
+    <ClCompile Include="Cmd\Command\ChangeObjectPropertyCommand.cpp" />
+    <ClCompile Include="Cmd\CommandDesc\ChangeObjectPropertyCommandDesc.cpp" />
+    <ClCompile Include="Cmd\Command\BatchCommand.cpp" />
+    <ClCompile Include="Cmd\Command\BaseCommand.cpp" />
+    <ClCompile Include="Cmd\CommandDesc\CommandDesc.cpp" />
     <ClCompile Include="Cmd\CommandManager.cpp" />
+    <ClCompile Include="Model\MEntity.cpp" />
     <ClCompile Include="Model\MObject.cpp" />
+    <ClCompile Include="Model\MScene.cpp" />
     <ClCompile Include="View\Main3DWidget.cpp" />
     <ClCompile Include="Main\main.cpp" />
-    <ClCompile Include="Main\xStudio.cpp" />
+    <ClCompile Include="Main\MainWindow.cpp" />
     <ClCompile Include="View\Base3DViewerWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="Main\xStudio.h" />
-    <ClInclude Include="Cmd\BatchCommand.h" />
-    <ClInclude Include="Cmd\BaseCommand.h" />
-    <ClInclude Include="Cmd\CommandDesc.h" />
+    <QtMoc Include="Main\MainWindow.h" />
+    <ClInclude Include="Cmd\Command\ChangeObjectPropertyCommand.h" />
+    <ClInclude Include="Cmd\CommandDesc\ChangeObjectPropertyCommandDesc.h" />
+    <ClInclude Include="Cmd\Command\BatchCommand.h" />
+    <ClInclude Include="Cmd\Command\BaseCommand.h" />
+    <ClInclude Include="Cmd\CommandDesc\CommandDesc.h" />
     <QtMoc Include="Model\MObject.h" />
     <QtMoc Include="Cmd\CommandManager.h" />
+    <QtMoc Include="Model\MScene.h" />
+    <QtMoc Include="Model\MEntity.h" />
     <ClInclude Include="Util\Singleton.h" />
     <ClInclude Include="View\Main3DWidget.h" />
     <ClInclude Include="View\Base3DViewerWidget.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="Main\xStudio.qrc" />
+    <QtRcc Include="Main\MainWindow.qrc" />
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="Main\xStudio.ui" />
+    <QtUic Include="Main\MainWindow.ui" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{965A3DB3-C8D1-4BA1-AA10-F68D10FE9482}</ProjectGuid>

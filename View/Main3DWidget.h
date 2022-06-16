@@ -1,16 +1,34 @@
 #pragma once
 
+#include <Model/MScene.h>
 #include "Base3DViewerWidget.h"
 
-class Main3DWidget : public Base3DViewerWidget
+namespace xStudio
 {
-public:
-    Main3DWidget(QWidget* parent);
-    ~Main3DWidget();
+    class Main3DWidget : public Base3DViewerWidget
+    {
+    public:
+        Main3DWidget(QWidget* parent);
+        ~Main3DWidget();
 
-    osg::Group* GetRootNode() const;
+        osg::Group* GetRootNode() const;
 
-    void AddNodeToRoot(const osg::ref_ptr<osg::Node>& node);
+        void AddNodeToRoot(const osg::ref_ptr<osg::Node>& node);
 
-    bool OpenEarthFile(const QString& file);
-};
+        bool OpenEarthFile(const QString& file);
+
+    protected:
+        void dragEnterEvent(QDragEnterEvent* evt) override;
+        void dragMoveEvent(QDragMoveEvent* evt) override;
+        void dropEvent(QDropEvent* evt) override;
+        void showEvent(QShowEvent* evt) override;
+
+    private:
+        void _OnFirstShowed();
+
+    private:
+        MScene* _scene;
+
+        bool _firstShowed = true;
+    };
+} // namespace xStudio

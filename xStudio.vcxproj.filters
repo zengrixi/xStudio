@@ -29,25 +29,37 @@
     <ClCompile Include="Main\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Main\xStudio.cpp">
+    <ClCompile Include="Main\MainWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="View\Main3DWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Cmd\CommandDesc.cpp">
+    <ClCompile Include="Cmd\CommandDesc\CommandDesc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Model\MObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Cmd\BaseCommand.cpp">
+    <ClCompile Include="Cmd\Command\BaseCommand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Cmd\BatchCommand.cpp">
+    <ClCompile Include="Cmd\Command\BatchCommand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Cmd\CommandManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\MScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\MEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Cmd\CommandDesc\ChangeObjectPropertyCommandDesc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Cmd\Command\ChangeObjectPropertyCommand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -61,18 +73,24 @@
     <ClInclude Include="Util\Singleton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Cmd\BaseCommand.h">
+    <ClInclude Include="Cmd\Command\BaseCommand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Cmd\CommandDesc.h">
+    <ClInclude Include="Cmd\CommandDesc\CommandDesc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Cmd\BatchCommand.h">
+    <ClInclude Include="Cmd\Command\BatchCommand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cmd\CommandDesc\ChangeObjectPropertyCommandDesc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cmd\Command\ChangeObjectPropertyCommand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="Main\xStudio.h">
+    <QtMoc Include="Main\MainWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="Model\MObject.h">
@@ -81,14 +99,20 @@
     <QtMoc Include="Cmd\CommandManager.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="Model\MScene.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Model\MEntity.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="Main\xStudio.qrc">
+    <QtRcc Include="Main\MainWindow.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="Main\xStudio.ui">
+    <QtUic Include="Main\MainWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
