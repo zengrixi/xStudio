@@ -59,5 +59,8 @@ namespace xStudio
 
         QList<MObject*> _parentList;
         QList<MObject*> _childList;
+
+        friend class CommandDesc;
+        friend class BatchCommand;
     };
 }; // namespace xStudio

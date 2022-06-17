@@ -23,6 +23,7 @@ namespace xStudio
         void dragMoveEvent(QDragMoveEvent* evt) override;
         void dropEvent(QDropEvent* evt) override;
         void showEvent(QShowEvent* evt) override;
+        void keyPressEvent(QKeyEvent* evt) override;
 
     private:
         void _OnFirstShowed();

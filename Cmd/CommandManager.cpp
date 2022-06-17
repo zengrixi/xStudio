@@ -2,6 +2,9 @@
 #include <Cmd/Command/ChangeObjectPropertyCommand.h>
 #include <Cmd/CommandDesc/ChangeObjectPropertyCommandDesc.h>
 
+#include <Cmd/CommandDesc/BatchCommandDesc.h>
+#include <QDateTime>
+
 namespace xStudio
 {
     void CommandManager::Initialzie()
@@ -36,13 +39,27 @@ namespace xStudio
 
             if (supportUndoRedo)
             {
-                if (_batchLevel >= 0)
+                if (_batchLevel == -1)
+                {
+                    if (cmdDesc->_combinedable)
+                    {
+                        auto lastCommand = _undoStack.top();
+                        if (lastCommand && cmdDesc->CombinedWith(lastCommand))
+                        {
+                            _undoStack.pop();
+                        }
+                        _lastCombinedableCmd = cmdDesc;
+                    }
+
+                    _undoStack.push(cmdDesc);
+                }
+                else if (_batchLevel >= 0)
                 {
                     if (_batchCommands[_batchLevel].size() > 0 && cmdDesc->_combinedable)
                     {
                         for (int i = 0; i < _batchCommands[_batchLevel].size(); i++)
                         {
-                            CommandDesc* lastCommand = _batchCommands[_batchLevel][i];
+                            auto lastCommand = _batchCommands[_batchLevel][i];
                             if (cmdDesc->CombinedWith(lastCommand))
                             {
                                 delete lastCommand;
@@ -65,9 +82,81 @@ namespace xStudio
         }
     }
 
-    void CommandManager::Undo(const QString& windowName) { }
+    void CommandManager::Undo()
+    {
+        if (_undoStack.top())
+        {
+            auto lastCmd = _undoStack.pop();
+            _redoStack.push(lastCmd);
+            ExecuteCommand(lastCmd, CommandUndoRedoState_Undo);
+        }
+    }
 
-    void CommandManager::Redo(const QString& windowName) { }
+    void CommandManager::Redo()
+    {
+        if (_redoStack.top())
+        {
+            auto lastCmd = _redoStack.pop();
+            _undoStack.push(lastCmd);
+            ExecuteCommand(lastCmd, CommandUndoRedoState_Redo);
+        }
+    }
+
+    void CommandManager::StartBatch()
+    {
+        _lastStartBatchTime = QDateTime::currentMSecsSinceEpoch();
+        _batchCommands.push_back(QList<CommandDesc*>());
+        _batchedPropertyNames.push_back(QList<QString>());
+        _batchedPropertyTargets.push_back(QList<MObject*>());
+        _batchLevel++;
+    }
+
+    void CommandManager::StartBatch(const QString& batchedPropertyName, MObject* target)
+    {
+        StartBatch();
+        _batchedPropertyNames[_batchLevel].push_back(batchedPropertyName);
+        _batchedPropertyTargets[_batchLevel].push_back(target);
+    }
+
+    void CommandManager::EndBatch()
+    {
+        if (_batchLevel != -1 && !_batchCommands.isEmpty() && _batchCommands[_batchLevel].size() > 0)
+        {
+            auto cmdList       = QList<CommandDesc*>();
+            auto canBeCombined = true;
+
+            for (int i = 0; i < _batchCommands[_batchLevel].size(); i++)
+            {
+                cmdList.push_back(_batchCommands[_batchLevel][i]);
+                if (!_batchCommands[_batchLevel][i]->_combinedable)
+                    canBeCombined = false;
+            }
+
+            auto cmd = new BatchCommandDesc(cmdList,
+                                            _batchedPropertyTargets[_batchLevel],
+                                            _batchedPropertyNames[_batchLevel],
+                                            CommandDescOption(canBeCombined));
+
+            _batchLevel--;
+            _batchCommands.removeLast();
+            _batchedPropertyTargets.removeLast();
+            _batchedPropertyNames.removeLast();
+
+            SendCommand(cmd, true);
+        }
+        else
+        {
+            if (_batchLevel >= 0)
+            {
+                _batchLevel--;
+                _batchCommands.removeLast();
+                _batchedPropertyTargets.removeLast();
+                _batchedPropertyNames.removeLast();
+            }
+        }
+    }
+
+    bool CommandManager::HasBatch() { return (!_batchCommands.isEmpty()); }
 
     void CommandManager::ChangeObjectProperty(MObject*        target,
                                               QString         propertyName,

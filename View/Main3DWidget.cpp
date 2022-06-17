@@ -2,6 +2,7 @@
 
 #include <QMimeData>
 
+#include <Util/CoordConvert.h>
 #include <osgDB/ReadFile>
 #include <osgEarth/AutoClipPlaneHandler>
 #include <osgEarth/EarthManipulator>
@@ -10,7 +11,6 @@
 #include <osgGA/StateSetManipulator>
 #include <osgUtil/Optimizer>
 #include <osgViewer/ViewerEventHandlers>
-#include <Util/CoordConvert.h>
 
 namespace xStudio
 {
@@ -100,9 +100,9 @@ namespace xStudio
             for (auto& url : urls)
             {
                 auto fileName = url.toLocalFile();
-                auto x = evt->pos().x();
-                auto y = evt->pos().y();
-                auto pos = CoordConverter::ScreenToWorld(this, osg::Vec3d(x, y, 0));
+                auto x        = evt->pos().x();
+                auto y        = evt->pos().y();
+                auto pos      = CoordConverter::ScreenToWorld(this, osg::Vec3d(x, y, 0));
                 _scene->GenerateEntityFromFile(fileName, QVector3D(pos.x(), pos.y(), pos.z()));
             }
         }
@@ -116,6 +116,22 @@ namespace xStudio
         {
             _OnFirstShowed();
             _firstShowed = false;
+        }
+    }
+
+    void Main3DWidget::keyPressEvent(QKeyEvent* evt)
+    {
+        Base3DViewerWidget::keyPressEvent(evt);
+        if (evt->modifiers() == Qt::ControlModifier)
+        {
+            if (evt->key() == Qt::Key_Z)
+            {
+                CommandManager::GetSingleton().Undo();
+            }
+            else if (evt->key() == Qt::Key_Y)
+            {
+                CommandManager::GetSingleton().Redo();
+            }
         }
     }
 

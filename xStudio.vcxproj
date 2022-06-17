@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Cmd\CommandDesc\BatchCommandDesc.cpp" />
     <ClCompile Include="Cmd\Command\ChangeObjectPropertyCommand.cpp" />
     <ClCompile Include="Cmd\CommandDesc\ChangeObjectPropertyCommandDesc.cpp" />
     <ClCompile Include="Cmd\Command\BatchCommand.cpp" />
@@ -28,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Main\MainWindow.h" />
+    <ClInclude Include="Cmd\CommandDesc\BatchCommandDesc.h" />
     <ClInclude Include="Cmd\Command\ChangeObjectPropertyCommand.h" />
     <ClInclude Include="Cmd\CommandDesc\ChangeObjectPropertyCommandDesc.h" />
     <ClInclude Include="Cmd\Command\BatchCommand.h" />

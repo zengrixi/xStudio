@@ -38,7 +38,7 @@ namespace xStudio
     private:
         osg::ref_ptr<osg::Group>           _entityRoot;
         osg::ref_ptr<osg::LOD>             _entityLOD;
-        osg::ref_ptr<osg::AutoTransform> _transform;
+        osg::ref_ptr<osg::MatrixTransform> _transform;
 
         uint64_t _id;
     };

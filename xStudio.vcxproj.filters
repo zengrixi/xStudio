@@ -65,6 +65,9 @@
     <ClCompile Include="Util\CoordConvert.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Cmd\CommandDesc\BatchCommandDesc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="View\Base3DViewerWidget.h">
@@ -92,6 +95,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Util\CoordConvert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cmd\CommandDesc\BatchCommandDesc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

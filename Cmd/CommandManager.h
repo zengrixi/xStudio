@@ -9,6 +9,7 @@
 
 #include <QObject.h>
 #include <QMap>
+#include <QStack>
 
 #include <Util/Singleton.h>
 
@@ -60,16 +61,28 @@ namespace xStudio
         /**
          * 撤销上次执行的指令.
          *
-         * \param windowName    指令执行在哪个窗口名称
          */
-        void Undo(const QString& windowName);
+        void Undo();
 
         /**
          * 重做上次执行的指令.
          *
-         * \param windowName    指令执行在哪个窗口名称
          */
-        void Redo(const QString& windowName);
+        void Redo();
+
+        void StartBatch();
+
+        /**
+         * 需要一起触发属性改变事件的属性名.
+         *
+         * \param batchedPropertyName
+         * \param target
+         */
+        void StartBatch(const QString& batchedPropertyName, MObject* target);
+
+        void EndBatch();
+
+        bool HasBatch();
 
         void ChangeObjectProperty(MObject*        target,
                                   QString         propertyName,
@@ -105,6 +118,19 @@ namespace xStudio
         int                        _batchLevel = -1;
         QList<QList<CommandDesc*>> _batchCommands;
 
+        QList<QList<QString>>  _batchedPropertyNames;
+        QList<QList<MObject*>> _batchedPropertyTargets;
+
+        QStack<CommandDesc*> _undoStack;
+        QStack<CommandDesc*> _redoStack;
+
+        uint64_t _lastStartBatchTime = 0;
+
         QList<DelayDispatchCommand*> _delayDispatchCommandSet;
+
+        CommandDesc* _lastCombinedableCmd = nullptr;
+
+        friend class BatchCommand;
+        friend class CommandDesc;
     };
 }; // namespace xStudio

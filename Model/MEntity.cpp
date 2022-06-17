@@ -1,6 +1,7 @@
 #include "MEntity.h"
 
 #include <osgDB/ReadFile>
+#include <osgEarth/EllipseNode>
 
 #include <QVector3D>
 
@@ -9,7 +10,7 @@ namespace xStudio
     MEntity::MEntity(MObject* parent)
         : MObject(parent)
     {
-        _transform  = new osg::AutoTransform();
+        _transform  = new osg::MatrixTransform();
         _entityRoot = new osg::Group();
     }
 
@@ -24,7 +25,16 @@ namespace xStudio
         if (!node)
             return false;
 
-        _transform->addChild(node);
+        auto autoTrans = new osg::AutoTransform();
+        autoTrans->addChild(node);
+        autoTrans->getOrCreateStateSet()->setMode(GL_LIGHTING,
+                                                  osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE);
+        autoTrans->setAutoScaleToScreen(true);
+        autoTrans->setMinimumScale(100.0);
+        autoTrans->setMaximumScale(10000);
+        autoTrans->setAutoScaleTransitionWidthRatio(0.0);
+
+        _transform->addChild(autoTrans);
 
         _entityRoot->addChild(_transform);
 
@@ -33,7 +43,10 @@ namespace xStudio
 
     void MEntity::SetPosition(const QVector3D& pos, bool emitPropertyChanged)
     {
-        _transform->setPosition(osg::Vec3(pos.x(), pos.y(), pos.z()));
+        osg::ref_ptr<osg::EllipsoidModel> em = new osg::EllipsoidModel;
+        osg::Matrixd         mtd;
+        em->computeLocalToWorldTransformFromXYZ(pos.x(), pos.y(), pos.z(), mtd);
+        _transform->setMatrix(mtd);
     }
 
     void MEntity::SetRotate(const QVector3D& rot, bool emitPropertyChanged) { }

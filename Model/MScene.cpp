@@ -106,12 +106,12 @@ namespace xStudio
             {
                 if (1 == cnt)
                 {
-                    auto p_entity = static_cast<MEntity*>(newValue.value<void*>());
+                    auto p_entity = static_cast<MEntity*>(oldValue.value<void*>());
                     _RemoveEntity(p_entity);
                 }
                 else
                 {
-                    auto variantList = newValue.toList();
+                    auto variantList = oldValue.toList();
                     for (auto& variant : variantList)
                     {
                         auto p_entity = static_cast<MEntity*>(variant.value<void*>());
