@@ -17,6 +17,7 @@
     <ClCompile Include="Cmd\Command\BaseCommand.cpp" />
     <ClCompile Include="Cmd\CommandDesc\CommandDesc.cpp" />
     <ClCompile Include="Cmd\CommandManager.cpp" />
+    <ClCompile Include="Util\CoordConvert.cpp" />
     <ClCompile Include="Model\MEntity.cpp" />
     <ClCompile Include="Model\MObject.cpp" />
     <ClCompile Include="Model\MScene.cpp" />
@@ -36,6 +37,7 @@
     <QtMoc Include="Cmd\CommandManager.h" />
     <QtMoc Include="Model\MScene.h" />
     <QtMoc Include="Model\MEntity.h" />
+    <ClInclude Include="Util\CoordConvert.h" />
     <ClInclude Include="Util\Singleton.h" />
     <ClInclude Include="View\Main3DWidget.h" />
     <ClInclude Include="View\Base3DViewerWidget.h" />

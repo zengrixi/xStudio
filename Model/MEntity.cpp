@@ -1,14 +1,15 @@
 #include "MEntity.h"
 
-#include <osg/MatrixTransform>
 #include <osgDB/ReadFile>
+
+#include <QVector3D>
 
 namespace xStudio
 {
     MEntity::MEntity(MObject* parent)
         : MObject(parent)
     {
-        _transform  = new osg::MatrixTransform();
+        _transform  = new osg::AutoTransform();
         _entityRoot = new osg::Group();
     }
 
@@ -30,7 +31,10 @@ namespace xStudio
         return true;
     }
 
-    void MEntity::SetPosition(const QVector3D& pos, bool emitPropertyChanged) { }
+    void MEntity::SetPosition(const QVector3D& pos, bool emitPropertyChanged)
+    {
+        _transform->setPosition(osg::Vec3(pos.x(), pos.y(), pos.z()));
+    }
 
     void MEntity::SetRotate(const QVector3D& rot, bool emitPropertyChanged) { }
 

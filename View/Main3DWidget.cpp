@@ -10,6 +10,7 @@
 #include <osgGA/StateSetManipulator>
 #include <osgUtil/Optimizer>
 #include <osgViewer/ViewerEventHandlers>
+#include <Util/CoordConvert.h>
 
 namespace xStudio
 {
@@ -99,7 +100,10 @@ namespace xStudio
             for (auto& url : urls)
             {
                 auto fileName = url.toLocalFile();
-                _scene->GenerateEntityFromFile(fileName, QVector3D());
+                auto x = evt->pos().x();
+                auto y = evt->pos().y();
+                auto pos = CoordConverter::ScreenToWorld(this, osg::Vec3d(x, y, 0));
+                _scene->GenerateEntityFromFile(fileName, QVector3D(pos.x(), pos.y(), pos.z()));
             }
         }
     }
