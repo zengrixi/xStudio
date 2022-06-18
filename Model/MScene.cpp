@@ -46,7 +46,7 @@ namespace xStudio
                                                                     list);
         }
 
-        return nullptr;
+        return entity;
     }
 
     osg::Group* MScene::GetScene() { return _scene; }

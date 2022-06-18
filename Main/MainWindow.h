@@ -4,6 +4,7 @@
 #include "ui_MainWindow.h"
 
 #include <View/Main3DWidget.h>
+#include <View/PropertyBrowserWidget.h>
 
 namespace xStudio
 {
@@ -18,5 +19,6 @@ namespace xStudio
         Ui::xStudioClass ui;
 
         Main3DWidget* _mainScene;
+        PropertyBrowserWidget* _propertyBrowser;
     };
 } // namespace xStudio

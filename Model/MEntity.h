@@ -26,10 +26,16 @@ namespace xStudio
 
         bool FillWithFile(const QString& file);
 
+        QString GetName() const;
+        void    SetName(const QString& name);
+
+        QVector3D GetPosition() const;
         void SetPosition(const QVector3D& pos, bool emitPropertyChanged = false);
 
+        QVector3D GetRotate() const;
         void SetRotate(const QVector3D& rot, bool emitPropertyChanged = false);
 
+        QVector3D GetScale() const;
         void SetScale(const QVector3D& scale, bool emitPropertyChanged = false);
 
         void     SetId(uint64_t id);
@@ -40,6 +46,11 @@ namespace xStudio
         osg::ref_ptr<osg::LOD>             _entityLOD;
         osg::ref_ptr<osg::MatrixTransform> _transform;
 
+        osg::Vec3f _position;
+        osg::Vec3f _rotate;
+        osg::Vec3f _scale;
+
+        QString  _name;
         uint64_t _id;
     };
 } // namespace xStudio

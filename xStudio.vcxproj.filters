@@ -68,6 +68,24 @@
     <ClCompile Include="Cmd\CommandDesc\BatchCommandDesc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="View\qtpropertybrowser\qtbuttonpropertybrowser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="View\qtpropertybrowser\qtgroupboxpropertybrowser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="View\qtpropertybrowser\qtpropertybrowser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="View\qtpropertybrowser\qtpropertybrowserutils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="View\qtpropertybrowser\qtvariantproperty.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="View\PropertyBrowserWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="View\Base3DViewerWidget.h">
@@ -100,6 +118,12 @@
     <ClInclude Include="Cmd\CommandDesc\BatchCommandDesc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GlobalDef\PropertyType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\TypeConvert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Main\MainWindow.h">
@@ -115,6 +139,42 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="Model\MEntity.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="View\qtpropertybrowser\qtvariantproperty.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="View\qtpropertybrowser\qtbuttonpropertybrowser.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="View\qtpropertybrowser\qteditorfactory.cpp">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="View\qtpropertybrowser\qteditorfactory.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="View\qtpropertybrowser\qtgroupboxpropertybrowser.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="View\qtpropertybrowser\qtpropertybrowser.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="View\qtpropertybrowser\qtpropertybrowserutils_p.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="View\qtpropertybrowser\qtpropertymanager.cpp">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="View\qtpropertybrowser\qtpropertymanager.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="View\qtpropertybrowser\qttreepropertybrowser.cpp">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="View\qtpropertybrowser\qttreepropertybrowser.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="View\PropertyBrowserWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

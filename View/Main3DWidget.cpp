@@ -103,7 +103,8 @@ namespace xStudio
                 auto x        = evt->pos().x();
                 auto y        = evt->pos().y();
                 auto pos      = CoordConverter::ScreenToWorld(this, osg::Vec3d(x, y, 0));
-                _scene->GenerateEntityFromFile(fileName, QVector3D(pos.x(), pos.y(), pos.z()));
+                auto entity = _scene->GenerateEntityFromFile(fileName, QVector3D(pos.x(), pos.y(), pos.z()));
+                emit SelectEntity(entity);
             }
         }
     }

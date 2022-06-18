@@ -18,6 +18,7 @@
     <ClCompile Include="Cmd\Command\BaseCommand.cpp" />
     <ClCompile Include="Cmd\CommandDesc\CommandDesc.cpp" />
     <ClCompile Include="Cmd\CommandManager.cpp" />
+    <ClCompile Include="View\PropertyBrowserWidget.cpp" />
     <ClCompile Include="Util\CoordConvert.cpp" />
     <ClCompile Include="Model\MEntity.cpp" />
     <ClCompile Include="Model\MObject.cpp" />
@@ -26,8 +27,53 @@
     <ClCompile Include="Main\main.cpp" />
     <ClCompile Include="Main\MainWindow.cpp" />
     <ClCompile Include="View\Base3DViewerWidget.cpp" />
+    <ClCompile Include="View\qtpropertybrowser\qtbuttonpropertybrowser.cpp" />
+    <ClCompile Include="View\qtpropertybrowser\qtgroupboxpropertybrowser.cpp" />
+    <ClCompile Include="View\qtpropertybrowser\qtpropertybrowser.cpp" />
+    <ClCompile Include="View\qtpropertybrowser\qtpropertybrowserutils.cpp" />
+    <ClCompile Include="View\qtpropertybrowser\qtvariantproperty.cpp" />
+    <QtMoc Include="View\qtpropertybrowser\qttreepropertybrowser.cpp">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
+    </QtMoc>
+    <QtMoc Include="View\qtpropertybrowser\qtpropertymanager.cpp">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
+    </QtMoc>
+    <QtMoc Include="View\qtpropertybrowser\qteditorfactory.cpp">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="View\qtpropertybrowser\qttreepropertybrowser.h">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</DynamicSource>
+    </QtMoc>
+    <QtMoc Include="View\qtpropertybrowser\qtpropertymanager.h">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</DynamicSource>
+    </QtMoc>
+    <QtMoc Include="View\qtpropertybrowser\qtpropertybrowserutils_p.h" />
+    <QtMoc Include="View\qtpropertybrowser\qtpropertybrowser.h">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</DynamicSource>
+    </QtMoc>
+    <QtMoc Include="View\qtpropertybrowser\qtgroupboxpropertybrowser.h">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</DynamicSource>
+    </QtMoc>
+    <QtMoc Include="View\qtpropertybrowser\qteditorfactory.h">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</DynamicSource>
+    </QtMoc>
+    <QtMoc Include="View\qtpropertybrowser\qtbuttonpropertybrowser.h">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</DynamicSource>
+    </QtMoc>
+    <QtMoc Include="View\qtpropertybrowser\qtvariantproperty.h">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</DynamicSource>
+    </QtMoc>
     <QtMoc Include="Main\MainWindow.h" />
     <ClInclude Include="Cmd\CommandDesc\BatchCommandDesc.h" />
     <ClInclude Include="Cmd\Command\ChangeObjectPropertyCommand.h" />
@@ -39,9 +85,12 @@
     <QtMoc Include="Cmd\CommandManager.h" />
     <QtMoc Include="Model\MScene.h" />
     <QtMoc Include="Model\MEntity.h" />
+    <ClInclude Include="GlobalDef\PropertyType.h" />
+    <QtMoc Include="View\PropertyBrowserWidget.h" />
     <ClInclude Include="Util\CoordConvert.h" />
     <ClInclude Include="Util\Singleton.h" />
-    <ClInclude Include="View\Main3DWidget.h" />
+    <ClInclude Include="Util\TypeConvert.h" />
+    <QtMoc Include="View\Main3DWidget.h" />
     <ClInclude Include="View\Base3DViewerWidget.h" />
   </ItemGroup>
   <ItemGroup>

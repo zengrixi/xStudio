@@ -8,6 +8,8 @@ namespace xStudio
 {
     class Main3DWidget : public Base3DViewerWidget
     {
+        Q_OBJECT
+
     public:
         Main3DWidget(QWidget* parent);
         ~Main3DWidget();
@@ -27,6 +29,9 @@ namespace xStudio
 
     private:
         void _OnFirstShowed();
+
+    signals:
+        void SelectEntity(MEntity* entity);
 
     private:
         MScene* _scene;

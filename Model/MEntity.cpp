@@ -3,6 +3,7 @@
 #include <osgDB/ReadFile>
 #include <osgEarth/EllipseNode>
 
+#include <Util/TypeConvert.h>
 #include <QVector3D>
 
 namespace xStudio
@@ -25,8 +26,12 @@ namespace xStudio
         if (!node)
             return false;
 
+        auto mt = new osg::MatrixTransform();
+        mt->addChild(node);
+        mt->setMatrix(osg::Matrix::rotate(-osg::PI_2, osg::X_AXIS) * osg::Matrix::scale(osg::Vec3(5, 5, 5)));
+
         auto autoTrans = new osg::AutoTransform();
-        autoTrans->addChild(node);
+        autoTrans->addChild(mt);
         autoTrans->getOrCreateStateSet()->setMode(GL_LIGHTING,
                                                   osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE);
         autoTrans->setAutoScaleToScreen(true);
@@ -41,15 +46,28 @@ namespace xStudio
         return true;
     }
 
+    QString MEntity::GetName() const { return _name; }
+
+    void MEntity::SetName(const QString& name) { _name = name; }
+
+    QVector3D MEntity::GetPosition() const { return TypeConvert::Vec3dToQVector3D(_position); }
+
     void MEntity::SetPosition(const QVector3D& pos, bool emitPropertyChanged)
     {
         osg::ref_ptr<osg::EllipsoidModel> em = new osg::EllipsoidModel;
-        osg::Matrixd         mtd;
+        osg::Matrixd                      mtd;
+        /*em->computeLocalToWorldTransformFromLatLongHeight(osg::inDegrees(25.04),
+                                                          osg::inDegrees(121.50),
+                                                          100, mtd);*/
         em->computeLocalToWorldTransformFromXYZ(pos.x(), pos.y(), pos.z(), mtd);
         _transform->setMatrix(mtd);
     }
 
+    QVector3D MEntity::GetRotate() const { return TypeConvert::Vec3dToQVector3D(_rotate); }
+
     void MEntity::SetRotate(const QVector3D& rot, bool emitPropertyChanged) { }
+
+    QVector3D MEntity::GetScale() const { return TypeConvert::Vec3dToQVector3D(_scale); }
 
     void MEntity::SetScale(const QVector3D& scale, bool emitPropertyChanged) { }
 
