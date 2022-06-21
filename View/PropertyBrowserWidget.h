@@ -1,7 +1,7 @@
-/*****************************************************************//**
+/*****************************************************************/ /**
  * \file   PropertyBrowerWidget.h
  * \brief  实体属性展示窗体
- * 
+ *
  * \author zengrixi
  * \date   June 2022
  *********************************************************************/
@@ -10,8 +10,8 @@
 
 #include <GlobalDef/PropertyType.h>
 #include <Model/MObject.h>
-#include <View/qtpropertybrowser/qtpropertymanager.h>
 #include <View/qtpropertybrowser/qteditorfactory.h>
+#include <View/qtpropertybrowser/qtpropertymanager.h>
 #include <View/qtpropertybrowser/qttreepropertybrowser.h>
 
 namespace xStudio
@@ -25,10 +25,10 @@ namespace xStudio
 
         void SetPropertyName(const QString& value);
 
-        void SetObject(MObject* value);
+        void     SetObject(MObject* value);
         MObject* GetObject() const;
 
-        void SetObjectList(const QList<MObject*>& value);
+        void            SetObjectList(const QList<MObject*>& value);
         QList<MObject*> GetObjectList() const;
 
     protected:
@@ -41,7 +41,7 @@ namespace xStudio
         void _Init();
 
     private:
-        QString _propetyName;
+        QString      _propetyName;
         PropertyType _objectPropertyType;
         MObject*     _object = nullptr;
 
@@ -50,7 +50,7 @@ namespace xStudio
         // 可编辑
         QtBoolPropertyManager*       _boolManager;
         QtIntPropertyManager*        _intManager;
-        QtDoublePropertyManager*     _doubleManager_;
+        QtDoublePropertyManager*     _doubleManager;
         QtStringPropertyManager*     _stringManager;
         QtSizePropertyManager*       _sizeManager;
         QtRectPropertyManager*       _rectManager;

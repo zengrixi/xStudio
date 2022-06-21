@@ -86,12 +86,18 @@
     <ClCompile Include="View\PropertyBrowserWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="View\qtpropertybrowser\extension\qtfileeditfactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="View\qtpropertybrowser\extension\qtfilepropertymanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="View\qtpropertybrowser\extension\fileedit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="View\Base3DViewerWidget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="View\Main3DWidget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Util\Singleton.h">
@@ -175,6 +181,18 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="View\PropertyBrowserWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="View\Main3DWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="View\qtpropertybrowser\extension\qtfileeditfactory.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="View\qtpropertybrowser\extension\qtfilepropertymanager.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="View\qtpropertybrowser\extension\fileedit.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

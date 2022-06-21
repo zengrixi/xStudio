@@ -30,13 +30,13 @@ namespace xStudio
         void    SetName(const QString& name);
 
         QVector3D GetPosition() const;
-        void SetPosition(const QVector3D& pos, bool emitPropertyChanged = false);
+        void      SetPosition(const QVector3D& pos, bool emitPropertyChanged = false);
 
         QVector3D GetRotate() const;
-        void SetRotate(const QVector3D& rot, bool emitPropertyChanged = false);
+        void      SetRotate(const QVector3D& rot, bool emitPropertyChanged = false);
 
         QVector3D GetScale() const;
-        void SetScale(const QVector3D& scale, bool emitPropertyChanged = false);
+        void      SetScale(const QVector3D& scale, bool emitPropertyChanged = false);
 
         void     SetId(uint64_t id);
         uint64_t GetId() const;

@@ -67,7 +67,7 @@ namespace xStudio
     {
         _boolManager       = new QtBoolPropertyManager(this);
         _intManager        = new QtIntPropertyManager(this);
-        _doubleManager_    = new QtDoublePropertyManager(this);
+        _doubleManager     = new QtDoublePropertyManager(this);
         _stringManager     = new QtStringPropertyManager(this);
         _sizeManager       = new QtSizePropertyManager(this);
         _rectManager       = new QtRectPropertyManager(this);
@@ -86,7 +86,7 @@ namespace xStudio
 
         _treePropertyBrowser->setFactoryForManager(_boolManager, _checkBoxFactory);
         _treePropertyBrowser->setFactoryForManager(_intManager, _spinBoxFactory);
-        _treePropertyBrowser->setFactoryForManager(_doubleManager_, _doubleSpinBoxFactory);
+        _treePropertyBrowser->setFactoryForManager(_doubleManager, _doubleSpinBoxFactory);
         _treePropertyBrowser->setFactoryForManager(_stringManager, _lineEditFactory);
         _treePropertyBrowser->setFactoryForManager(_sizeManager->subIntPropertyManager(), _spinBoxFactory);
         _treePropertyBrowser->setFactoryForManager(_rectManager->subIntPropertyManager(), _spinBoxFactory);
@@ -97,7 +97,7 @@ namespace xStudio
         _treePropertyBrowser->setFactoryForManager(_colorManager->subIntPropertyManager(), _spinBoxFactory);
 
         auto _basicProperty = _groupManager->addProperty("basic properties");
-        _name       = _stringManager->addProperty("name");
+        _name               = _stringManager->addProperty("name");
         _basicProperty->addSubProperty(_name);
 
         _id = _intManager->addProperty("id");

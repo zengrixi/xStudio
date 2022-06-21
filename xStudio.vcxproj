@@ -18,6 +18,8 @@
     <ClCompile Include="Cmd\Command\BaseCommand.cpp" />
     <ClCompile Include="Cmd\CommandDesc\CommandDesc.cpp" />
     <ClCompile Include="Cmd\CommandManager.cpp" />
+    <ClCompile Include="View\qtpropertybrowser\extension\fileedit.cpp" />
+    <ClCompile Include="View\qtpropertybrowser\extension\qtfileeditfactory.cpp" />
     <ClCompile Include="View\PropertyBrowserWidget.cpp" />
     <ClCompile Include="Util\CoordConvert.cpp" />
     <ClCompile Include="Model\MEntity.cpp" />
@@ -27,6 +29,7 @@
     <ClCompile Include="Main\main.cpp" />
     <ClCompile Include="Main\MainWindow.cpp" />
     <ClCompile Include="View\Base3DViewerWidget.cpp" />
+    <ClCompile Include="View\qtpropertybrowser\extension\qtfilepropertymanager.cpp" />
     <ClCompile Include="View\qtpropertybrowser\qtbuttonpropertybrowser.cpp" />
     <ClCompile Include="View\qtpropertybrowser\qtgroupboxpropertybrowser.cpp" />
     <ClCompile Include="View\qtpropertybrowser\qtpropertybrowser.cpp" />
@@ -52,6 +55,8 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="View\qtpropertybrowser\extension\fileedit.h" />
+    <QtMoc Include="View\qtpropertybrowser\extension\qtfilepropertymanager.h" />
     <QtMoc Include="View\qtpropertybrowser\qttreepropertybrowser.h">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</DynamicSource>
     </QtMoc>
@@ -87,6 +92,7 @@
     <QtMoc Include="Model\MEntity.h" />
     <ClInclude Include="GlobalDef\PropertyType.h" />
     <QtMoc Include="View\PropertyBrowserWidget.h" />
+    <QtMoc Include="View\qtpropertybrowser\extension\qtfileeditfactory.h" />
     <ClInclude Include="Util\CoordConvert.h" />
     <ClInclude Include="Util\Singleton.h" />
     <ClInclude Include="Util\TypeConvert.h" />
@@ -152,12 +158,17 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\3rdparty\include;$(SolutionDir)\..\oe32\include;$(SolutionDir)\..\osg365\include;%(AdditionalIncludeDirectories);$(Qt_INCLUDEPATH_);$(SolutionDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\3rdparty\include;$(SolutionDir)\..\oe32\include;$(SolutionDir)\..\osg365\include;%(AdditionalIncludeDirectories);$(Qt_INCLUDEPATH_);$(SolutionDir);.\View\qtpropertybrowser\extension</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>OpenThreads.lib;osg.lib;osgAnimation.lib;osgDB.lib;osgEarth.lib;osgFX.lib;osgGA.lib;osgManipulator.lib;osgParticle.lib;osgPresentation.lib;osgShadow.lib;osgSim.lib;osgTerrain.lib;osgText.lib;osgUI.lib;osgUtil.lib;osgViewer.lib;osgVolume.lib;osgWidget.lib;%(AdditionalDependencies);$(Qt_LIBS_)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\..\oe32\lib;$(SolutionDir)\..\osg365\lib;$(SolutionDir)\..\3rdparty\lib;</AdditionalLibraryDirectories>
     </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\View\qtpropertybrowser\extension;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>

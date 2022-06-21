@@ -18,7 +18,7 @@ namespace xStudio
     private:
         Ui::xStudioClass ui;
 
-        Main3DWidget* _mainScene;
+        Main3DWidget*          _mainScene;
         PropertyBrowserWidget* _propertyBrowser;
     };
 } // namespace xStudio

@@ -37,57 +37,74 @@
 **
 ****************************************************************************/
 
-#include "qtpropertybrowserutils_p.h"
-#include <QtWidgets/QApplication>
-#include <QtGui/QPainter>
-#include <QtWidgets/QHBoxLayout>
+#include <QtCore/QLocale>
 #include <QtGui/QMouseEvent>
+#include <QtGui/QPainter>
+#include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMenu>
-#include <QtCore/QLocale>
+#include "qtpropertybrowserutils_p.h"
 
 QT_BEGIN_NAMESPACE
 
 QtCursorDatabase::QtCursorDatabase()
 {
-    appendCursor(Qt::ArrowCursor, QCoreApplication::translate("QtCursorDatabase", "Arrow"),
+    appendCursor(Qt::ArrowCursor,
+                 QCoreApplication::translate("QtCursorDatabase", "Arrow"),
                  QIcon(QLatin1String(":/qt-project.org/qtpropertybrowser/images/cursor-arrow.png")));
-    appendCursor(Qt::UpArrowCursor, QCoreApplication::translate("QtCursorDatabase", "Up Arrow"),
+    appendCursor(Qt::UpArrowCursor,
+                 QCoreApplication::translate("QtCursorDatabase", "Up Arrow"),
                  QIcon(QLatin1String(":/qt-project.org/qtpropertybrowser/images/cursor-uparrow.png")));
-    appendCursor(Qt::CrossCursor, QCoreApplication::translate("QtCursorDatabase", "Cross"),
+    appendCursor(Qt::CrossCursor,
+                 QCoreApplication::translate("QtCursorDatabase", "Cross"),
                  QIcon(QLatin1String(":/qt-project.org/qtpropertybrowser/images/cursor-cross.png")));
-    appendCursor(Qt::WaitCursor, QCoreApplication::translate("QtCursorDatabase", "Wait"),
+    appendCursor(Qt::WaitCursor,
+                 QCoreApplication::translate("QtCursorDatabase", "Wait"),
                  QIcon(QLatin1String(":/qt-project.org/qtpropertybrowser/images/cursor-wait.png")));
-    appendCursor(Qt::IBeamCursor, QCoreApplication::translate("QtCursorDatabase", "IBeam"),
+    appendCursor(Qt::IBeamCursor,
+                 QCoreApplication::translate("QtCursorDatabase", "IBeam"),
                  QIcon(QLatin1String(":/qt-project.org/qtpropertybrowser/images/cursor-ibeam.png")));
-    appendCursor(Qt::SizeVerCursor, QCoreApplication::translate("QtCursorDatabase", "Size Vertical"),
+    appendCursor(Qt::SizeVerCursor,
+                 QCoreApplication::translate("QtCursorDatabase", "Size Vertical"),
                  QIcon(QLatin1String(":/qt-project.org/qtpropertybrowser/images/cursor-sizev.png")));
-    appendCursor(Qt::SizeHorCursor, QCoreApplication::translate("QtCursorDatabase", "Size Horizontal"),
+    appendCursor(Qt::SizeHorCursor,
+                 QCoreApplication::translate("QtCursorDatabase", "Size Horizontal"),
                  QIcon(QLatin1String(":/qt-project.org/qtpropertybrowser/images/cursor-sizeh.png")));
-    appendCursor(Qt::SizeFDiagCursor, QCoreApplication::translate("QtCursorDatabase", "Size Backslash"),
+    appendCursor(Qt::SizeFDiagCursor,
+                 QCoreApplication::translate("QtCursorDatabase", "Size Backslash"),
                  QIcon(QLatin1String(":/qt-project.org/qtpropertybrowser/images/cursor-sizef.png")));
-    appendCursor(Qt::SizeBDiagCursor, QCoreApplication::translate("QtCursorDatabase", "Size Slash"),
+    appendCursor(Qt::SizeBDiagCursor,
+                 QCoreApplication::translate("QtCursorDatabase", "Size Slash"),
                  QIcon(QLatin1String(":/qt-project.org/qtpropertybrowser/images/cursor-sizeb.png")));
-    appendCursor(Qt::SizeAllCursor, QCoreApplication::translate("QtCursorDatabase", "Size All"),
+    appendCursor(Qt::SizeAllCursor,
+                 QCoreApplication::translate("QtCursorDatabase", "Size All"),
                  QIcon(QLatin1String(":/qt-project.org/qtpropertybrowser/images/cursor-sizeall.png")));
-    appendCursor(Qt::BlankCursor, QCoreApplication::translate("QtCursorDatabase", "Blank"),
-                 QIcon());
-    appendCursor(Qt::SplitVCursor, QCoreApplication::translate("QtCursorDatabase", "Split Vertical"),
+    appendCursor(Qt::BlankCursor, QCoreApplication::translate("QtCursorDatabase", "Blank"), QIcon());
+    appendCursor(Qt::SplitVCursor,
+                 QCoreApplication::translate("QtCursorDatabase", "Split Vertical"),
                  QIcon(QLatin1String(":/qt-project.org/qtpropertybrowser/images/cursor-vsplit.png")));
-    appendCursor(Qt::SplitHCursor, QCoreApplication::translate("QtCursorDatabase", "Split Horizontal"),
+    appendCursor(Qt::SplitHCursor,
+                 QCoreApplication::translate("QtCursorDatabase", "Split Horizontal"),
                  QIcon(QLatin1String(":/qt-project.org/qtpropertybrowser/images/cursor-hsplit.png")));
-    appendCursor(Qt::PointingHandCursor, QCoreApplication::translate("QtCursorDatabase", "Pointing Hand"),
+    appendCursor(Qt::PointingHandCursor,
+                 QCoreApplication::translate("QtCursorDatabase", "Pointing Hand"),
                  QIcon(QLatin1String(":/qt-project.org/qtpropertybrowser/images/cursor-hand.png")));
-    appendCursor(Qt::ForbiddenCursor, QCoreApplication::translate("QtCursorDatabase", "Forbidden"),
+    appendCursor(Qt::ForbiddenCursor,
+                 QCoreApplication::translate("QtCursorDatabase", "Forbidden"),
                  QIcon(QLatin1String(":/qt-project.org/qtpropertybrowser/images/cursor-forbidden.png")));
-    appendCursor(Qt::OpenHandCursor, QCoreApplication::translate("QtCursorDatabase", "Open Hand"),
+    appendCursor(Qt::OpenHandCursor,
+                 QCoreApplication::translate("QtCursorDatabase", "Open Hand"),
                  QIcon(QLatin1String(":/qt-project.org/qtpropertybrowser/images/cursor-openhand.png")));
-    appendCursor(Qt::ClosedHandCursor, QCoreApplication::translate("QtCursorDatabase", "Closed Hand"),
+    appendCursor(Qt::ClosedHandCursor,
+                 QCoreApplication::translate("QtCursorDatabase", "Closed Hand"),
                  QIcon(QLatin1String(":/qt-project.org/qtpropertybrowser/images/cursor-closedhand.png")));
-    appendCursor(Qt::WhatsThisCursor, QCoreApplication::translate("QtCursorDatabase", "What's This"),
+    appendCursor(Qt::WhatsThisCursor,
+                 QCoreApplication::translate("QtCursorDatabase", "What's This"),
                  QIcon(QLatin1String(":/qt-project.org/qtpropertybrowser/images/cursor-whatsthis.png")));
-    appendCursor(Qt::BusyCursor, QCoreApplication::translate("QtCursorDatabase", "Busy"),
+    appendCursor(Qt::BusyCursor,
+                 QCoreApplication::translate("QtCursorDatabase", "Busy"),
                  QIcon(QLatin1String(":/qt-project.org/qtpropertybrowser/images/cursor-busy.png")));
 }
 
@@ -99,7 +116,7 @@ void QtCursorDatabase::clear()
     m_cursorShapeToValue.clear();
 }
 
-void QtCursorDatabase::appendCursor(Qt::CursorShape shape, const QString &name, const QIcon &icon)
+void QtCursorDatabase::appendCursor(Qt::CursorShape shape, const QString& name, const QIcon& icon)
 {
     if (m_cursorShapeToValue.contains(shape))
         return;
@@ -110,17 +127,11 @@ void QtCursorDatabase::appendCursor(Qt::CursorShape shape, const QString &name, 
     m_cursorShapeToValue.insert(shape, value);
 }
 
-QStringList QtCursorDatabase::cursorShapeNames() const
-{
-    return m_cursorNames;
-}
+QStringList QtCursorDatabase::cursorShapeNames() const { return m_cursorNames; }
 
-QMap<int, QIcon> QtCursorDatabase::cursorShapeIcons() const
-{
-    return m_cursorIcons;
-}
+QMap<int, QIcon> QtCursorDatabase::cursorShapeIcons() const { return m_cursorIcons; }
 
-QString QtCursorDatabase::cursorToShapeName(const QCursor &cursor) const
+QString QtCursorDatabase::cursorToShapeName(const QCursor& cursor) const
 {
     int val = cursorToValue(cursor);
     if (val >= 0)
@@ -128,13 +139,13 @@ QString QtCursorDatabase::cursorToShapeName(const QCursor &cursor) const
     return QString();
 }
 
-QIcon QtCursorDatabase::cursorToShapeIcon(const QCursor &cursor) const
+QIcon QtCursorDatabase::cursorToShapeIcon(const QCursor& cursor) const
 {
     int val = cursorToValue(cursor);
     return m_cursorIcons.value(val);
 }
 
-int QtCursorDatabase::cursorToValue(const QCursor &cursor) const
+int QtCursorDatabase::cursorToValue(const QCursor& cursor) const
 {
 #ifndef QT_NO_CURSOR
     Qt::CursorShape shape = cursor.shape();
@@ -153,7 +164,7 @@ QCursor QtCursorDatabase::valueToCursor(int value) const
 }
 #endif
 
-QPixmap QtPropertyBrowserUtils::brushValuePixmap(const QBrush &b)
+QPixmap QtPropertyBrowserUtils::brushValuePixmap(const QBrush& b)
 {
     QImage img(16, 16, QImage::Format_ARGB32_Premultiplied);
     img.fill(0);
@@ -162,31 +173,31 @@ QPixmap QtPropertyBrowserUtils::brushValuePixmap(const QBrush &b)
     painter.setCompositionMode(QPainter::CompositionMode_Source);
     painter.fillRect(0, 0, img.width(), img.height(), b);
     QColor color = b.color();
-    if (color.alpha() != 255) { // indicate alpha by an inset
-        QBrush  opaqueBrush = b;
+    if (color.alpha() != 255)
+    { // indicate alpha by an inset
+        QBrush opaqueBrush = b;
         color.setAlpha(255);
         opaqueBrush.setColor(color);
-        painter.fillRect(img.width() / 4, img.height() / 4,
-                         img.width() / 2, img.height() / 2, opaqueBrush);
+        painter.fillRect(img.width() / 4, img.height() / 4, img.width() / 2, img.height() / 2, opaqueBrush);
     }
     painter.end();
     return QPixmap::fromImage(img);
 }
 
-QIcon QtPropertyBrowserUtils::brushValueIcon(const QBrush &b)
-{
-    return QIcon(brushValuePixmap(b));
-}
+QIcon QtPropertyBrowserUtils::brushValueIcon(const QBrush& b) { return QIcon(brushValuePixmap(b)); }
 
-QString QtPropertyBrowserUtils::colorValueText(const QColor &c)
+QString QtPropertyBrowserUtils::colorValueText(const QColor& c)
 {
     return QCoreApplication::translate("QtPropertyBrowserUtils", "[%1, %2, %3] (%4)")
-           .arg(c.red()).arg(c.green()).arg(c.blue()).arg(c.alpha());
+        .arg(c.red())
+        .arg(c.green())
+        .arg(c.blue())
+        .arg(c.alpha());
 }
 
-QPixmap QtPropertyBrowserUtils::fontValuePixmap(const QFont &font)
+QPixmap QtPropertyBrowserUtils::fontValuePixmap(const QFont& font)
 {
-    QFont f = font;
+    QFont  f = font;
     QImage img(16, 16, QImage::Format_ARGB32_Premultiplied);
     img.fill(0);
     QPainter p(&img);
@@ -200,15 +211,11 @@ QPixmap QtPropertyBrowserUtils::fontValuePixmap(const QFont &font)
     return QPixmap::fromImage(img);
 }
 
-QIcon QtPropertyBrowserUtils::fontValueIcon(const QFont &f)
-{
-    return QIcon(fontValuePixmap(f));
-}
+QIcon QtPropertyBrowserUtils::fontValueIcon(const QFont& f) { return QIcon(fontValuePixmap(f)); }
 
-QString QtPropertyBrowserUtils::fontValueText(const QFont &f)
+QString QtPropertyBrowserUtils::fontValueText(const QFont& f)
 {
-    return QCoreApplication::translate("QtPropertyBrowserUtils", "[%1, %2]")
-           .arg(f.family()).arg(f.pointSize());
+    return QCoreApplication::translate("QtPropertyBrowserUtils", "[%1, %2]").arg(f.family()).arg(f.pointSize());
 }
 
 QString QtPropertyBrowserUtils::dateFormat()
@@ -232,12 +239,12 @@ QString QtPropertyBrowserUtils::dateTimeFormat()
     return format;
 }
 
-QtBoolEdit::QtBoolEdit(QWidget *parent) :
-    QWidget(parent),
-    m_checkBox(new QCheckBox(this)),
-    m_textVisible(true)
+QtBoolEdit::QtBoolEdit(QWidget* parent)
+    : QWidget(parent)
+    , m_checkBox(new QCheckBox(this))
+    , m_textVisible(true)
 {
-    QHBoxLayout *lt = new QHBoxLayout;
+    QHBoxLayout* lt = new QHBoxLayout;
     if (QApplication::layoutDirection() == Qt::LeftToRight)
         lt->setContentsMargins(4, 0, 0, 0);
     else
@@ -261,20 +268,11 @@ void QtBoolEdit::setTextVisible(bool textVisible)
         m_checkBox->setText(QString());
 }
 
-Qt::CheckState QtBoolEdit::checkState() const
-{
-    return m_checkBox->checkState();
-}
+Qt::CheckState QtBoolEdit::checkState() const { return m_checkBox->checkState(); }
 
-void QtBoolEdit::setCheckState(Qt::CheckState state)
-{
-    m_checkBox->setCheckState(state);
-}
+void QtBoolEdit::setCheckState(Qt::CheckState state) { m_checkBox->setCheckState(state); }
 
-bool QtBoolEdit::isChecked() const
-{
-    return m_checkBox->isChecked();
-}
+bool QtBoolEdit::isChecked() const { return m_checkBox->isChecked(); }
 
 void QtBoolEdit::setChecked(bool c)
 {
@@ -284,17 +282,17 @@ void QtBoolEdit::setChecked(bool c)
     m_checkBox->setText(isChecked() ? tr("True") : tr("False"));
 }
 
-bool QtBoolEdit::blockCheckBoxSignals(bool block)
-{
-    return m_checkBox->blockSignals(block);
-}
+bool QtBoolEdit::blockCheckBoxSignals(bool block) { return m_checkBox->blockSignals(block); }
 
-void QtBoolEdit::mousePressEvent(QMouseEvent *event)
+void QtBoolEdit::mousePressEvent(QMouseEvent* event)
 {
-    if (event->buttons() == Qt::LeftButton) {
+    if (event->buttons() == Qt::LeftButton)
+    {
         m_checkBox->click();
         event->accept();
-    } else {
+    }
+    else
+    {
         QWidget::mousePressEvent(event);
     }
 }
