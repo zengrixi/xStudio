@@ -785,6 +785,43 @@ private:
     Q_DISABLE_COPY(QtCursorPropertyManager)
 };
 
+class QtVec3PropertyManagerPrivate;
+
+class QtVec3PropertyManager : public QtAbstractPropertyManager
+{
+    Q_OBJECT
+public:
+    QtVec3PropertyManager(QObject* parent = nullptr);
+    ~QtVec3PropertyManager();
+
+    QtDoublePropertyManager* subDoublePropertyManager() const;
+
+    QVector3D value(const QtProperty* property) const;
+    QVector3D minimum(const QtProperty* property) const;
+    QVector3D maximum(const QtProperty* property) const;
+
+public Q_SLOTS:
+    void setValue(QtProperty* property, const QVector3D& val);
+    void setMinimum(QtProperty* property, const QVector3D& minVal);
+    void setMaximum(QtProperty* property, const QVector3D& maxVal);
+    void setRange(QtProperty* property, const QVector3D& minVal, const QVector3D& maxVal);
+Q_SIGNALS:
+    void valueChanged(QtProperty* property, const QVector3D& val);
+    void rangeChanged(QtProperty* property, const QVector3D& minVal, const QVector3D& maxVal);
+
+protected:
+    QString      valueText(const QtProperty* property) const;
+    virtual void initializeProperty(QtProperty* property);
+    virtual void uninitializeProperty(QtProperty* property);
+
+private:
+    QScopedPointer<QtVec3PropertyManagerPrivate> d_ptr;
+    Q_DECLARE_PRIVATE(QtVec3PropertyManager)
+    Q_DISABLE_COPY(QtVec3PropertyManager)
+    Q_PRIVATE_SLOT(d_func(), void slotDoubleChanged(QtProperty*, double))
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QtProperty*))
+};
+
 QT_END_NAMESPACE
 
 #endif

@@ -74,6 +74,7 @@ namespace xStudio
         _sizePolicyManager = new QtSizePolicyPropertyManager(this);
         _enumManager       = new QtEnumPropertyManager(this);
         _colorManager      = new QtColorPropertyManager(this);
+        _vec3Manager       = new QtVec3PropertyManager(this);
 
         _checkBoxFactory      = new QtCheckBoxFactory(this);
         _spinBoxFactory       = new QtSpinBoxFactory(this);
@@ -95,6 +96,7 @@ namespace xStudio
         _treePropertyBrowser->setFactoryForManager(_enumManager, _comboBoxFactory);
         _treePropertyBrowser->setFactoryForManager(_colorManager, _colorEditorFactory);
         _treePropertyBrowser->setFactoryForManager(_colorManager->subIntPropertyManager(), _spinBoxFactory);
+        _treePropertyBrowser->setFactoryForManager(_vec3Manager->subDoublePropertyManager(), _doubleSpinBoxFactory);
 
         auto _basicProperty = _groupManager->addProperty("basic properties");
         _name               = _stringManager->addProperty("name");
@@ -103,13 +105,13 @@ namespace xStudio
         _id = _intManager->addProperty("id");
         _basicProperty->addSubProperty(_id);
 
-        _position = _rectManager->addProperty("position");
+        _position = _vec3Manager->addProperty("position");
         _basicProperty->addSubProperty(_position);
 
-        _scale = _rectManager->addProperty("scale");
+        _scale = _vec3Manager->addProperty("scale");
         _basicProperty->addSubProperty(_scale);
 
-        _rotate = _rectManager->addProperty("rotate");
+        _rotate = _vec3Manager->addProperty("rotate");
         _basicProperty->addSubProperty(_rotate);
 
         _treePropertyBrowser->addProperty(_basicProperty);

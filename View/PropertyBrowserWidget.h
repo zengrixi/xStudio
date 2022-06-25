@@ -57,6 +57,7 @@ namespace xStudio
         QtSizePolicyPropertyManager* _sizePolicyManager;
         QtEnumPropertyManager*       _enumManager;
         QtColorPropertyManager*      _colorManager;
+        QtVec3PropertyManager*       _vec3Manager;
 
         // ²»¿É±à¼­
         QtGroupPropertyManager*  _groupManager;

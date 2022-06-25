@@ -38,6 +38,7 @@
 ****************************************************************************/
 
 #include "qtpropertymanager.h"
+#include <QVector3D>
 #include <QtCore/QDateTime>
 #include <QtCore/QLocale>
 #include <QtCore/QMap>
@@ -114,6 +115,25 @@ static void setSizeMaximumData(PrivateData* data, const Value& newMaxVal)
         data->val.setHeight(data->maxVal.height());
 }
 
+template<class PrivateData, class Value>
+static void setVec3MinimumData(PrivateData* data, const Value& newMinVal)
+{
+    data->minVal = newMinVal;
+    if (data->maxVal.x() < data->minVal.x())
+        data->maxVal.setX(data->minVal.x());
+    if (data->maxVal.y() < data->minVal.y())
+        data->maxVal.setY(data->minVal.y());
+    if (data->maxVal.z() < data->minVal.z())
+        data->maxVal.setZ(data->minVal.z());
+
+    if (data->val.x() < data->minVal.x())
+        data->val.setX(data->minVal.x());
+    if (data->val.y() < data->minVal.y())
+        data->val.setY(data->minVal.y());
+    if (data->val.z() < data->minVal.z())
+        data->val.setZ(data->minVal.z());
+}
+
 template<class SizeValue>
 static SizeValue qBoundSize(const SizeValue& minVal, const SizeValue& val, const SizeValue& maxVal)
 {
@@ -131,10 +151,34 @@ static SizeValue qBoundSize(const SizeValue& minVal, const SizeValue& val, const
     return croppedVal;
 }
 
+template<class SizeValue>
+static SizeValue qBoundVec3(const SizeValue& minVal, const SizeValue& val, const SizeValue& maxVal)
+{
+    SizeValue croppedVal = val;
+    if (minVal.x() > val.x())
+        croppedVal.setX(minVal.x());
+    else if (maxVal.x() < val.x())
+        croppedVal.setX(maxVal.x());
+
+    if (minVal.y() > val.y())
+        croppedVal.setY(minVal.y());
+    else if (maxVal.y() < val.y())
+        croppedVal.setY(maxVal.y());
+
+    if (minVal.z() > val.z())
+        croppedVal.setZ(minVal.z());
+    else if (maxVal.z() < val.z())
+        croppedVal.setZ(maxVal.z());
+
+    return croppedVal;
+}
+
 // Match the exact signature of qBound for VS 6.
 QSize qBound(QSize minVal, QSize val, QSize maxVal) { return qBoundSize(minVal, val, maxVal); }
 
 QSizeF qBound(QSizeF minVal, QSizeF val, QSizeF maxVal) { return qBoundSize(minVal, val, maxVal); }
+
+QVector3D qBound(QVector3D minVal, QVector3D val, QVector3D maxVal) { return qBoundVec3(minVal, val, maxVal); }
 
 namespace
 {
@@ -166,9 +210,35 @@ namespace
             maxVal = toSize;
         }
 
+        template<class Value>
+        static void orderVec3Borders(Value& minVal, Value& maxVal)
+        {
+            Value     fromSize = minVal;
+            Value toSize   = maxVal;
+            if (fromSize.x() > toSize.x())
+            {
+                fromSize.setX(maxVal.x());
+                toSize.setX(minVal.x());
+            }
+            if (fromSize.y() > toSize.y())
+            {
+                fromSize.setY(maxVal.y());
+                toSize.setY(minVal.y());
+            }
+            if (fromSize.z() > toSize.z())
+            {
+                fromSize.setZ(maxVal.z());
+                toSize.setZ(minVal.z());
+            }
+            minVal = fromSize;
+            maxVal = toSize;
+        }
+
         void orderBorders(QSize& minVal, QSize& maxVal) { orderSizeBorders(minVal, maxVal); }
 
         void orderBorders(QSizeF& minVal, QSizeF& maxVal) { orderSizeBorders(minVal, maxVal); }
+
+        void orderBorders(QVector3D& minVal, QVector3D& maxVal) { orderVec3Borders(minVal, maxVal); }
     } // namespace
 } // namespace
 ////////
@@ -6688,6 +6758,279 @@ void QtCursorPropertyManager::initializeProperty(QtProperty* property)
     \reimp
 */
 void QtCursorPropertyManager::uninitializeProperty(QtProperty* property) { d_ptr->m_values.remove(property); }
+
+/**
+ * QtVec3PropertyManagerPrivate.
+ */
+class QtVec3PropertyManagerPrivate
+{
+    QtVec3PropertyManager* q_ptr;
+    Q_DECLARE_PUBLIC(QtVec3PropertyManager)
+public:
+    void slotDoubleChanged(QtProperty* property, double value);
+    void slotPropertyDestroyed(QtProperty* property);
+    void setValue(QtProperty* property, const QVector3D& val);
+    void setRange(QtProperty* property, const QVector3D& minVal, const QVector3D& maxVal, const QVector3D& val);
+
+    struct Data
+    {
+        QVector3D val{ 0, 0, 0 };
+        QVector3D minVal{ 0, 0, 0 };
+        QVector3D maxVal{ INT_MAX, INT_MAX, INT_MAX };
+        QVector3D minimumValue() const { return minVal; }
+        QVector3D maximumValue() const { return maxVal; }
+        void      setMinimumValue(const QVector3D& newMinVal) { setVec3MinimumData(this, newMinVal); }
+        void      setMaximumValue(const QVector3D& newMaxVal) { setVec3MinimumData(this, newMaxVal); }
+    };
+
+    typedef QMap<const QtProperty*, Data> PropertyValueMap;
+    PropertyValueMap                      m_values;
+
+    QtDoublePropertyManager* m_doublePropertyManager;
+
+    QMap<const QtProperty*, QtProperty*> m_propertyToX;
+    QMap<const QtProperty*, QtProperty*> m_propertyToY;
+    QMap<const QtProperty*, QtProperty*> m_propertyToZ;
+
+    QMap<const QtProperty*, QtProperty*> m_xToProperty;
+    QMap<const QtProperty*, QtProperty*> m_yToProperty;
+    QMap<const QtProperty*, QtProperty*> m_zToProperty;
+};
+
+void QtVec3PropertyManagerPrivate::slotDoubleChanged(QtProperty* property, double value)
+{
+    if (QtProperty* prop = m_xToProperty.value(property, 0))
+    {
+        QVector3D s = m_values[prop].val;
+        s.setX(value);
+        q_ptr->setValue(prop, s);
+    }
+    else if (QtProperty* prop = m_yToProperty.value(property, 0))
+    {
+        QVector3D s = m_values[prop].val;
+        s.setY(value);
+        q_ptr->setValue(prop, s);
+    }
+    else if (QtProperty* prop = m_zToProperty.value(property, 0))
+    {
+        QVector3D s = m_values[prop].val;
+        s.setZ(value);
+        q_ptr->setValue(prop, s);
+    }
+}
+
+void QtVec3PropertyManagerPrivate::slotPropertyDestroyed(QtProperty* property)
+{
+    if (QtProperty* pointProp = m_xToProperty.value(property, 0))
+    {
+        m_propertyToX[pointProp] = 0;
+        m_xToProperty.remove(property);
+    }
+    else if (QtProperty* pointProp = m_yToProperty.value(property, 0))
+    {
+        m_propertyToY[pointProp] = 0;
+        m_yToProperty.remove(property);
+    }
+    else if (QtProperty* pointProp = m_zToProperty.value(property, 0))
+    {
+        m_propertyToZ[pointProp] = 0;
+        m_zToProperty.remove(property);
+    }
+}
+
+void QtVec3PropertyManagerPrivate::setValue(QtProperty* property, const QVector3D& val)
+{
+    m_doublePropertyManager->setValue(m_propertyToX.value(property), val.x());
+    m_doublePropertyManager->setValue(m_propertyToY.value(property), val.y());
+    m_doublePropertyManager->setValue(m_propertyToZ.value(property), val.z());
+}
+
+void QtVec3PropertyManagerPrivate::setRange(QtProperty*      property,
+                                            const QVector3D& minVal,
+                                            const QVector3D& maxVal,
+                                            const QVector3D& val)
+{
+    QtProperty* xProperty = m_propertyToX.value(property);
+    QtProperty* yProperty = m_propertyToY.value(property);
+    QtProperty* zProperty = m_propertyToZ.value(property);
+    m_doublePropertyManager->setRange(xProperty, minVal.x(), maxVal.x());
+    m_doublePropertyManager->setValue(xProperty, val.x());
+    m_doublePropertyManager->setRange(yProperty, minVal.y(), maxVal.y());
+    m_doublePropertyManager->setValue(yProperty, val.y());
+    m_doublePropertyManager->setRange(zProperty, minVal.z(), maxVal.z());
+    m_doublePropertyManager->setValue(zProperty, val.z());
+}
+
+QtVec3PropertyManager::QtVec3PropertyManager(QObject* parent)
+    : QtAbstractPropertyManager(parent)
+    , d_ptr(new QtVec3PropertyManagerPrivate)
+{
+    d_ptr->q_ptr = this;
+
+    d_ptr->m_doublePropertyManager = new QtDoublePropertyManager(this);
+    connect(d_ptr->m_doublePropertyManager,
+            SIGNAL(valueChanged(QtProperty*, double)),
+            this,
+            SLOT(slotDoubleChanged(QtProperty*, double)));
+    connect(d_ptr->m_doublePropertyManager,
+            SIGNAL(propertyDestroyed(QtProperty*)),
+            this,
+            SLOT(slotPropertyDestroyed(QtProperty*)));
+}
+
+QtVec3PropertyManager::~QtVec3PropertyManager() { clear(); }
+
+QtDoublePropertyManager* QtVec3PropertyManager::subDoublePropertyManager() const
+{
+    return d_ptr->m_doublePropertyManager;
+}
+
+QVector3D QtVec3PropertyManager::value(const QtProperty* property) const
+{
+    return getValue<QVector3D>(d_ptr->m_values, property);
+}
+
+QVector3D QtVec3PropertyManager::minimum(const QtProperty* property) const
+{
+    return getMinimum<QVector3D>(d_ptr->m_values, property);
+}
+
+QVector3D QtVec3PropertyManager::maximum(const QtProperty* property) const
+{
+    return getMaximum<QVector3D>(d_ptr->m_values, property);
+}
+
+QString QtVec3PropertyManager::valueText(const QtProperty* property) const
+{
+    const QtVec3PropertyManagerPrivate::PropertyValueMap::const_iterator it = d_ptr->m_values.constFind(property);
+    if (it == d_ptr->m_values.constEnd())
+        return QString();
+    const QVector3D v = it.value().val;
+    return tr("[%1, %2, %3]").arg(QString::number(v.x())).arg(QString::number(v.y())).arg(QString::number(v.z()));
+}
+
+void QtVec3PropertyManager::setValue(QtProperty* property, const QVector3D& val)
+{
+    setValueInRange<const QVector3D&, QtVec3PropertyManagerPrivate, QtVec3PropertyManager, const QVector3D>(
+        this,
+        d_ptr.data(),
+        &QtVec3PropertyManager::propertyChanged,
+        &QtVec3PropertyManager::valueChanged,
+        property,
+        val,
+        &QtVec3PropertyManagerPrivate::setValue);
+}
+
+void QtVec3PropertyManager::setMinimum(QtProperty* property, const QVector3D& minVal)
+{
+    setBorderValue<const QVector3D&,
+                   QtVec3PropertyManagerPrivate,
+                   QtVec3PropertyManager,
+                   QVector3D,
+                   QtVec3PropertyManagerPrivate::Data>(this,
+                                                       d_ptr.data(),
+                                                       &QtVec3PropertyManager::propertyChanged,
+                                                       &QtVec3PropertyManager::valueChanged,
+                                                       &QtVec3PropertyManager::rangeChanged,
+                                                       property,
+                                                       &QtVec3PropertyManagerPrivate::Data::minimumValue,
+                                                       &QtVec3PropertyManagerPrivate::Data::setMinimumValue,
+                                                       minVal,
+                                                       &QtVec3PropertyManagerPrivate::setRange);
+}
+
+void QtVec3PropertyManager::setMaximum(QtProperty* property, const QVector3D& maxVal)
+{
+    setBorderValue<const QVector3D&,
+                   QtVec3PropertyManagerPrivate,
+                   QtVec3PropertyManager,
+                   QVector3D,
+                   QtVec3PropertyManagerPrivate::Data>(this,
+                                                       d_ptr.data(),
+                                                       &QtVec3PropertyManager::propertyChanged,
+                                                       &QtVec3PropertyManager::valueChanged,
+                                                       &QtVec3PropertyManager::rangeChanged,
+                                                       property,
+                                                       &QtVec3PropertyManagerPrivate::Data::maximumValue,
+                                                       &QtVec3PropertyManagerPrivate::Data::setMaximumValue,
+                                                       maxVal,
+                                                       &QtVec3PropertyManagerPrivate::setRange);
+}
+
+void QtVec3PropertyManager::setRange(QtProperty* property, const QVector3D& minVal, const QVector3D& maxVal)
+{
+    setBorderValues<const QVector3D&, QtVec3PropertyManagerPrivate, QtVec3PropertyManager, QVector3D>(
+        this,
+        d_ptr.data(),
+        &QtVec3PropertyManager::propertyChanged,
+        &QtVec3PropertyManager::valueChanged,
+        &QtVec3PropertyManager::rangeChanged,
+        property,
+        minVal,
+        maxVal,
+        &QtVec3PropertyManagerPrivate::setRange);
+}
+
+void QtVec3PropertyManager::initializeProperty(QtProperty* property)
+{
+    d_ptr->m_values[property] = QtVec3PropertyManagerPrivate::Data();
+
+    QtProperty* xProp = d_ptr->m_doublePropertyManager->addProperty();
+    xProp->setPropertyName(tr("x"));
+    d_ptr->m_doublePropertyManager->setValue(xProp, 0.0f);
+    d_ptr->m_doublePropertyManager->setMinimum(xProp, 0.0f);
+    d_ptr->m_propertyToX[property] = xProp;
+    d_ptr->m_xToProperty[xProp]    = property;
+    property->addSubProperty(xProp);
+
+    QtProperty* yProp = d_ptr->m_doublePropertyManager->addProperty();
+    yProp->setPropertyName(tr("y"));
+    d_ptr->m_doublePropertyManager->setValue(yProp, 0.0f);
+    d_ptr->m_doublePropertyManager->setMinimum(yProp, 0.0f);
+    d_ptr->m_propertyToY[property] = yProp;
+    d_ptr->m_yToProperty[yProp]    = property;
+    property->addSubProperty(yProp);
+
+    QtProperty* zProp = d_ptr->m_doublePropertyManager->addProperty();
+    zProp->setPropertyName(tr("z"));
+    d_ptr->m_doublePropertyManager->setValue(zProp, 0.0f);
+    d_ptr->m_doublePropertyManager->setMinimum(zProp, 0.0f);
+    d_ptr->m_propertyToZ[property] = zProp;
+    d_ptr->m_zToProperty[zProp]    = property;
+    property->addSubProperty(zProp);
+}
+
+/*!
+    \reimp
+*/
+void QtVec3PropertyManager::uninitializeProperty(QtProperty* property)
+{
+    QtProperty* xProp = d_ptr->m_propertyToX[property];
+    if (xProp)
+    {
+        d_ptr->m_xToProperty.remove(xProp);
+        delete xProp;
+    }
+    d_ptr->m_propertyToX.remove(property);
+
+    QtProperty* yProp = d_ptr->m_propertyToY[property];
+    if (yProp)
+    {
+        d_ptr->m_yToProperty.remove(yProp);
+        delete yProp;
+    }
+    d_ptr->m_propertyToY.remove(property);
+
+    QtProperty* zProp = d_ptr->m_propertyToZ[property];
+    if (zProp)
+    {
+        d_ptr->m_zToProperty.remove(zProp);
+        delete zProp;
+    }
+    d_ptr->m_propertyToZ.remove(property);
+
+    d_ptr->m_values.remove(property);
+}
 
 QT_END_NAMESPACE
 
